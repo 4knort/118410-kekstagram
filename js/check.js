@@ -10,8 +10,14 @@ function getMessage(a, b){
   if(typeof(a) == "number"){
     return("Переданное SVG-изображение содержит " + a + " объектов и " + (b * 4) + (" аттрибутов"))
   }
-  if(typeof(a) == [] && typeof(b) == []){
-
+  if(typeof(a) == "object" && typeof(b) == "object"){
+      for(var i = 0; i < a.length; i++){
+        var arr = [];
+        arr.push(a[i] * b[i]);
+        var square = 0;
+        square = square + arr[i];
+        return("Общая площадь артефактов сжатия: " + square +  " пикселей");
+      }
   }
 }
 
