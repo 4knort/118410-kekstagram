@@ -8,10 +8,6 @@
 'use strict';
 
 (function() {
-
-
-
-
   /** @enum {string} */
   var FileType = {
     'GIF': '',
