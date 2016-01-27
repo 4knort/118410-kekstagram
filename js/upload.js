@@ -338,34 +338,38 @@
 
   // cookie
   var formFilter = document.querySelector('#upload-filter');
-  var radioNone = document.getElementById('upload-filter-none');
-  var radioChrome = document.getElementById('upload-filter-chrome');
-  var radioSepia = document.getElementById('upload-filter-sepia');
+  var radios = formFilter.querySelectorAll('input[type=radio]');
+  var radioActive;
+
 
 
   formFilter.onsubmit = function(event) {
     event.preventDefault();
 
-    var myBirth = new Date('2015-08-19');
-    var dateToExpire = Date.now() - myBirth;
+    var myBirth = new Date('2015-08-19').valueOf();
+    var dateToExpire = Date.now() + (Date.now() - myBirth);
     var formattedDateToExpire = new Date(dateToExpire).toUTCString();
-    var formRadio;
 
-    if (radioNone.checked = true) {
-      formRadio = radioNone;
-    } else if (radioChrome.checked = true) {
-      formRadio = radioChrome;
-    } else {
-      formRadio = radioSepia;
+    for (var i = 0; i < radios.length; i++) {
+      if (radios[i].checked) {
+        radioActive = radios[i];
+      }
     }
-
-    document.cookie = 'filter=' + formRadio;
+    document.cookie = 'filter=' + radioActive.id + ';expires=' + formattedDateToExpire;
 
     // formFilter.submit();
   };
 
-  // filterRadio = docCookies.getItem('filter');
-  // filterRadio.checked = true;
+  var radioFilter = document.getElementById(docCookies.getItem('filter'));
+  radioFilter.checked = true;
+
+  if (document.getElementById('upload-filter-none').checked === true) {
+    filterImage.className = 'filter-image-preview ' + 'filter-none';
+  } else if (document.getElementById('upload-filter-chrome').checked === true) {
+    filterImage.className = 'filter-image-preview ' + 'filter-chrome';
+  } else {
+    filterImage.className = 'filter-image-preview ' + 'filter-sepia';
+  }
 })();
 
 
