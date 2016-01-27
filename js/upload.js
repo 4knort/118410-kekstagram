@@ -322,10 +322,11 @@
   // отключение кнопки сабмит(проверка на валидность форм)
   function valid() {
     var isValid = true;
-    var submitButton = document.forms['upload-resize'].querySelector('#resize-fwd');
+    var submitButton = document.getElementById('#resize-fwd');
 
     for (var i = 0; i < document.forms['upload-resize'].elements.length; i++) {
       isValid = document.forms['upload-resize'].elements[i].validity.valid;
+
       if (!isValid) {
         submitButton.disabled = !isValid;
         break;
@@ -335,6 +336,36 @@
     }
   }
 
+  // cookie
+  var formFilter = document.querySelector('#upload-filter');
+  var radioNone = document.getElementById('upload-filter-none');
+  var radioChrome = document.getElementById('upload-filter-chrome');
+  var radioSepia = document.getElementById('upload-filter-sepia');
+
+
+  formFilter.onsubmit = function(event) {
+    event.preventDefault();
+
+    var myBirth = new Date('2015-08-19');
+    var dateToExpire = Date.now() - myBirth;
+    var formattedDateToExpire = new Date(dateToExpire).toUTCString();
+    var formRadio;
+
+    if (radioNone.checked = true) {
+      formRadio = radioNone;
+    } else if (radioChrome.checked = true) {
+      formRadio = radioChrome;
+    } else {
+      formRadio = radioSepia;
+    }
+
+    document.cookie = 'filter=' + formRadio;
+
+    // formFilter.submit();
+  };
+
+  // filterRadio = docCookies.getItem('filter');
+  // filterRadio.checked = true;
 })();
 
 
