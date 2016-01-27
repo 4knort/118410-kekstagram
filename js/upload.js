@@ -293,6 +293,14 @@
     }
   }
 
+  function resizingSide(sizeX, sizeY, side){
+    if (sizeX > sizeY) {
+      resizeSide.max = currentResizer._image.naturalWidth - resizeX.value;
+    } else {
+      resizeSide.max = currentResizer._image.naturalHeight - resizeY.value;
+    }
+  }
+
   // создаем событие onchange на поле ширины
   resizeX.onchange = function() {
     resizeWidth(resizeX.value, resizeSide.value);
@@ -301,12 +309,13 @@
 
   // создаем событие onchange на поле высоты
   resizeY.onchange = function() {
-    resizeHeight(resizeY.value, resizeSide.value);
+    resizeHeight(resizeSide.value, resizeSide.value);
     valid();
   };
 
   // проверяем поле 'сторона' на валидность
   resizeSide.onchange = function() {
+    resizingSide(resizeX.value, resizeY.value, resizeSide.value);
     valid();
   };
 
@@ -324,7 +333,6 @@
         submitButton.disabled = false;
       }
     }
-
   }
 
 })();
