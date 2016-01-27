@@ -322,10 +322,12 @@
   // отключение кнопки сабмит(проверка на валидность форм)
   function valid() {
     var isValid = true;
-    var submitButton = document.getElementById('#resize-fwd');
+    var submitButton = document.getElementById('resize-fwd');
+    var formLength = document.forms['upload-resize'].elements.length;
+    var formElements = document.forms['upload-resize'].elements;
 
-    for (var i = 0; i < document.forms['upload-resize'].elements.length; i++) {
-      isValid = document.forms['upload-resize'].elements[i].validity.valid;
+    for (var i = 0; i < formLength; i++) {
+      isValid = formElements[i].validity.valid;
 
       if (!isValid) {
         submitButton.disabled = !isValid;
