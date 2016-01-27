@@ -262,10 +262,9 @@
   updateBackground();
 
   // переменные  с инпутами
-  var uploadResize = document.querySelector("#upload-resize");
-  var resizeX = document.querySelector("#resize-x");
-  var resizeY = document.querySelector("#resize-y");
-  var resizeSide = document.querySelector("#resize-size");
+  var resizeX = document.querySelector('#resize-x');
+  var resizeY = document.querySelector('#resize-y');
+  var resizeSide = document.querySelector('#resize-size');
 
   resizeX.min = 0;
   resizeY.min = 0;
@@ -280,8 +279,7 @@
     if (sum > currentResizer._image.naturalWidth) {
       resizeX.max = currentResizer._image.naturalWidth;
       resizeSide.max = 0;
-    }
-    else {
+    } else {
       resizeX.max = currentResizer._image.naturalWidth - resizeX.value;
       resizeSide.max = currentResizer._image.naturalWidth - resizeX.value;
     }
@@ -293,8 +291,7 @@
     if (sum > currentResizer._image.naturalHeight) {
       resizeY.max = currentResizer._image.naturalHeight;
       resizeSide.max = 0;
-    }
-    else {
+    } else {
       resizeY.max = currentResizer._image.naturalHeight - resizeY.value;
       resizeSide.max = currentResizer._image.naturalHeight - resizeY.value;
     }
@@ -304,30 +301,30 @@
   resizeX.onchange = function() {
     resizeWidth(resizeX.value, resizeSide.value);
     valid();
-  }
+  };
 
   // создаем событие onchange на поле высоты
   resizeY.onchange = function() {
     resizeHeight(resizeY.value, resizeSide.value);
     valid();
-  }
-  // проверяем поле "сторона" на валидность
-  resizeSide.onchange = function(){
+  };
+
+  // проверяем поле 'сторона' на валидность
+  resizeSide.onchange = function() {
     valid();
-  }
+  };
 
   // отключение кнопки сабмит(проверка на валидность форм)
-  function valid(){
+  function valid() {
     var isValid = true;
-    var submitButton = document.forms["upload-resize"].querySelector("#resize-fwd");
+    var submitButton = document.forms['upload-resize'].querySelector('#resize-fwd');
 
-    for (var i = 0; i < document.forms["upload-resize"].elements.length; i++) {
-      isValid = document.forms["upload-resize"].elements[i].validity.valid;
+    for (var i = 0; i < document.forms['upload-resize'].elements.length; i++) {
+      isValid = document.forms['upload-resize'].elements[i].validity.valid;
       if (!isValid) {
-       submitButton.disabled = !isValid;
-       break
-      }
-      else{
+        submitButton.disabled = !isValid;
+        break;
+      } else {
         submitButton.disabled = false;
       }
     }
