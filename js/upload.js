@@ -293,7 +293,7 @@
     }
   }
 
-  function resizingSide(sizeX, sizeY,) {
+  function resizingSide(sizeX, sizeY) {
     if (sizeX > sizeY) {
       resizeSide.max = currentResizer._image.naturalWidth - resizeX.value;
     } else {
