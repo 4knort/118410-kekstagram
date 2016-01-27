@@ -271,24 +271,24 @@
 
   // функция которая ограничаивает максимально возможно размеры ширины для отправки
   function resizeWidth(size, side) {
-    var sum = size + side;
+    var sum = parseInt(size, 10) + parseInt(side, 10);
     if (sum > currentResizer._image.naturalWidth) {
       resizeX.max = currentResizer._image.naturalWidth;
       resizeSide.max = 0;
     } else {
-      resizeX.max = currentResizer._image.naturalWidth - resizeX.value;
+      resizeX.max = resizeX.value + (currentResizer._image.naturalWidth - resizeX.value);
       resizeSide.max = currentResizer._image.naturalWidth - resizeX.value;
     }
   }
 
 // функция которая ограничаивает максимально возможно размеры высоты для отправки
   function resizeHeight(size, side) {
-    var sum = size + side;
+    var sum = parseInt(size, 10) + parseInt(side, 10);
     if (sum > currentResizer._image.naturalHeight) {
       resizeY.max = currentResizer._image.naturalHeight;
       resizeSide.max = 0;
     } else {
-      resizeY.max = currentResizer._image.naturalHeight - resizeY.value;
+      resizeY.max = resizeY.value + (currentResizer._image.naturalHeight - resizeY.value);
       resizeSide.max = currentResizer._image.naturalHeight - resizeY.value;
     }
   }
