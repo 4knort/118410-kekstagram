@@ -8,6 +8,10 @@
 'use strict';
 
 (function() {
+
+
+
+
   /** @enum {string} */
   var FileType = {
     'GIF': '',
@@ -256,4 +260,80 @@
 
   cleanupResizer();
   updateBackground();
+
+  // переменные  с инпутами
+  var uploadResize = document.querySelector("#upload-resize");
+  var resizeX = document.querySelector("#resize-x");
+  var resizeY = document.querySelector("#resize-y");
+  var resizeSide = document.querySelector("#resize-size");
+
+  resizeX.min = 0;
+  resizeY.min = 0;
+
+  resizeX.value = 0;
+  resizeY.value = 0;
+  resizeSide.value = 0;
+
+  // функция которая ограничаивает максимально возможно размеры ширины для отправки
+  function resizeWidth(size, side) {
+    var sum = size + side;
+    if (sum > currentResizer._image.naturalWidth) {
+      resizeX.max = currentResizer._image.naturalWidth;
+      resizeSide.max = 0;
+    }
+    else {
+      resizeX.max = currentResizer._image.naturalWidth - resizeX.value;
+      resizeSide.max = currentResizer._image.naturalWidth - resizeX.value;
+    }
+  }
+
+// функция которая ограничаивает максимально возможно размеры высоты для отправки
+  function resizeHeight(size, side) {
+    var sum = size + side;
+    if (sum > currentResizer._image.naturalHeight) {
+      resizeY.max = currentResizer._image.naturalHeight;
+      resizeSide.max = 0;
+    }
+    else {
+      resizeY.max = currentResizer._image.naturalHeight - resizeY.value;
+      resizeSide.max = currentResizer._image.naturalHeight - resizeY.value;
+    }
+  }
+
+  // создаем событие onchange на поле ширины
+  resizeX.onchange = function() {
+    resizeWidth(resizeX.value, resizeSide.value);
+    valid();
+  }
+
+  // создаем событие onchange на поле высоты
+  resizeY.onchange = function() {
+    resizeHeight(resizeY.value, resizeSide.value);
+    valid();
+  }
+  // проверяем поле "сторона" на валидность
+  resizeSide.onchange = function(){
+    valid();
+  }
+
+  // отключение кнопки сабмит(проверка на валидность форм)
+  function valid(){
+    var isValid = true;
+    var submitButton = document.forms["upload-resize"].querySelector("#resize-fwd");
+
+    for (var i = 0; i < document.forms["upload-resize"].elements.length; i++) {
+      isValid = document.forms["upload-resize"].elements[i].validity.valid;
+      if (!isValid) {
+       submitButton.disabled = !isValid;
+       break
+      }
+      else{
+        submitButton.disabled = false;
+      }
+    }
+
+  }
+
 })();
+
+
