@@ -293,7 +293,7 @@
     }
   }
 
-  function resizingSide(sizeX, sizeY, side){
+  function resizingSide(sizeX, sizeY,) {
     if (sizeX > sizeY) {
       resizeSide.max = currentResizer._image.naturalWidth - resizeX.value;
     } else {
@@ -315,7 +315,7 @@
 
   // проверяем поле 'сторона' на валидность
   resizeSide.onchange = function() {
-    resizingSide(resizeX.value, resizeY.value, resizeSide.value);
+    resizingSide(resizeX.value, resizeY.value);
     valid();
   };
 
