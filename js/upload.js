@@ -257,6 +257,8 @@
   cleanupResizer();
   updateBackground();
 
+  // docCookies fix
+  var docCookies = docCookies || {};
   // переменные  с инпутами
   var resizeX = document.querySelector('#resize-x');
   var resizeY = document.querySelector('#resize-y');
