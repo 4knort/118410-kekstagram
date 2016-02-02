@@ -87,6 +87,8 @@
       // canvas'a поэтому важно вовремя поменять их, если нужно начать отрисовку
       // чего-либо с другой обводкой.
 
+
+
       // Толщина линии.
       this._ctx.lineWidth = 6;
       // Цвет обводки.
@@ -110,6 +112,22 @@
       // нужно отрисовать и координаты его верхнего левого угла.
       // Координаты задаются от центра холста.
       this._ctx.drawImage(this._image, displX, displY);
+
+      //рисуем 4 прямоугольника
+      this._ctx.beginPath();
+      this._ctx.rect(this._container.width / 2, this._container.height / 2, -this._container.width, -75);
+      this._ctx.rect(this._container.width / 2, this._container.height / 2, -75, -this._container.height);
+      this._ctx.rect(-this._container.width / 2, -this._container.height / 2, this._container.width, 75);
+      this._ctx.rect(-this._container.width / 2, -this._container.height / 2, 75, this._container.height);
+      this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+      this._ctx.fill();
+
+      // выводим размеры изображения
+      this._ctx.font = '20px sans-serif';
+      this._ctx.textAlign = "center";
+      this._ctx.fillStyle = "#fff";
+      this._ctx.fillText(this._image.naturalWidth + " X " + this._image.naturalHeight, 0, -235);
+
 
       // Отрисовка прямоугольника, обозначающего область изображения после
       // кадрирования. Координаты задаются от центра.
