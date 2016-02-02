@@ -124,9 +124,9 @@
 
       // выводим размеры изображения
       this._ctx.font = '20px sans-serif';
-      this._ctx.textAlign = "center";
-      this._ctx.fillStyle = "#fff";
-      this._ctx.fillText(this._image.naturalWidth + " X " + this._image.naturalHeight, 0, -235);
+      this._ctx.textAlign = 'center';
+      this._ctx.fillStyle = '#fff';
+      this._ctx.fillText(this._image.naturalWidth + ' X ' + this._image.naturalHeight, 0, -235);
 
 
       // Отрисовка прямоугольника, обозначающего область изображения после
