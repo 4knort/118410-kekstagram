@@ -49,7 +49,7 @@
   }
 
   //работа с фильтрами
-  for (var i = 0; i <= filter.length; i++) {
+  for (var i = 0; i < filter.length; i++) {
     filter[i].addEventListener('click', function(evt) {
       var clickedElemId = evt.target.getAttribute('for');
       setActiveFilter(clickedElemId);
