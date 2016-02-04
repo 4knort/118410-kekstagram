@@ -15,12 +15,22 @@
   function getPictures() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://o0.github.io/assets/json/pictures.json');
+    xhr.timeout = 10000;
     xhr.onload = function(evt) {
       var responseData = evt.target.response;
       pictures = JSON.parse(responseData);
       renderPictures(pictures);
       showFilters();
     };
+    xhr.addEventListener('readystatechange', function() {
+      if (xhr.readyState === 3) {
+        container.classList.add('pictures-loading');
+      } else if (xhr.readyState === 4) {
+        container.classList.remove('pictures-loading');
+      } else if (xhr.readyState === 0) {
+        container.classList.add('pictures-failure');
+      }
+    });
 
     xhr.send();
   }
@@ -77,17 +87,13 @@
 
     //загрузка изображения
     image.onload = function() {
-      container.classList.add('pictures-loading');
       clearTimeout(imageLoadTimeout);
       element.replaceChild(image, imgTag);
-      container.classList.remove('pictures-loading');
     };
 
     // если произойдет ошибка загрузки изображения
     image.onerror = function() {
-      container.classList.add('pictures-failure');
       element.classList.add('picture-load-failure');
-      container.classList.remove('pictures-failure');
     };
 
     image.src = picture.url;
