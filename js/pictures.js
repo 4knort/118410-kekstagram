@@ -1,13 +1,18 @@
 'use strict';
-
+var bodyCoordinates = document.querySelector('body').getBoundingClientRect();
 (function() {
 
   var container = document.querySelector('.pictures');
   var template = document.querySelector('#picture-template');
   var filters = document.querySelector('.filters');
-  var pictures = null;
+  var pictures = [];
+  var filteredPictures = [];
   var filter = document.querySelectorAll('.filters-item');
   var fragment = document.createDocumentFragment();
+  var currentPage = 0;
+  var PAGE_SIZE = 17;
+  var PAGE_SIZE_BIG = 26;
+
 
   getPictures();
 
@@ -16,12 +21,13 @@
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'https://o0.github.io/assets/json/pictures.json');
     xhr.timeout = 10000;
-    xhr.onload = function(evt) {
+    xhr.addEventListener('load', function(evt) {
       var responseData = evt.target.response;
       pictures = JSON.parse(responseData);
-      renderPictures(pictures);
+      filteredPictures = JSON.parse(responseData);
+      renderPictures(pictures, 0, true);
       showFilters();
-    };
+    });
     xhr.addEventListener('readystatechange', function() {
       if (xhr.readyState === 3) {
         container.classList.add('pictures-loading');
@@ -35,14 +41,52 @@
     xhr.send();
   }
 
-  //обрабатываем данные полученные из json
-  function renderPictures(data) {
-    // обнуляем содержимое контейнера
-    container.innerHTML = '';
+  var scrollTimeout;
 
-    data.forEach(function(picture) {
-      addPicture(picture);
-    });
+  window.addEventListener('scroll', function() {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(function() {
+      if (bodyCoordinates.bottom - window.innerHeight <= 0) {
+        if (currentPage < Math.ceil(filteredPictures.length / PAGE_SIZE)) {
+          renderPictures(filteredPictures, ++currentPage);
+        }
+      }
+    }, 100);
+  });
+
+  //обрабатываем данные полученные из json
+  function renderPictures(data, pageNumber, replace) {
+    var from; // с какого элемента режем массив
+    var to; // до какого элемента режем массив
+    var pagePictures; //вырезанный массив
+
+    if (replace) {
+      // обнуляем содержимое контейнера
+      container.innerHTML = '';
+    }
+    if (bodyCoordinates.width >= 1380) {
+      // если большое  разрешение
+
+      from = pageNumber * PAGE_SIZE_BIG;
+      to = from + PAGE_SIZE_BIG;
+      pagePictures = data.slice(from, to);
+
+      pagePictures.forEach(function(picture) {
+        addPicture(picture);
+      });
+
+    } else {
+
+      //определяем сколько будет отображаться изображений на странице
+      from = pageNumber * PAGE_SIZE;
+      to = from + PAGE_SIZE;
+      pagePictures = data.slice(from, to);
+
+      pagePictures.forEach(function(picture) {
+        addPicture(picture);
+      });
+
+    }
 
     // после обработки всех изображений, запихиваем их разом в контейнер
     container.appendChild(fragment);
@@ -58,7 +102,8 @@
 
   // сортировка изображений в зависимости от активного фильтра
   function setActiveFilter(id) {
-    var filteredPictures = pictures.slice(0);
+    filteredPictures = pictures.slice(0);
+    currentPage = 0;
     if (id === 'filter-new') {
       filteredPictures = filteredPictures.sort(function(a, b) {
         return new Date(b.date) - new Date(a.date);
@@ -68,7 +113,7 @@
         return b.comments - a.comments;
       });
     }
-    renderPictures(filteredPictures);
+    renderPictures(filteredPictures, 0, true);
   }
 
 
@@ -86,15 +131,15 @@
     var imageLoadTimeout;
 
     //загрузка изображения
-    image.onload = function() {
+    image.addEventListener('load', function() {
       clearTimeout(imageLoadTimeout);
       element.replaceChild(image, imgTag);
-    };
+    });
 
     // если произойдет ошибка загрузки изображения
-    image.onerror = function() {
+    image.addEventListener('error', function() {
       element.classList.add('picture-load-failure');
-    };
+    });
 
     image.src = picture.url;
 
