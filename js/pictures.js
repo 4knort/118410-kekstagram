@@ -7,7 +7,6 @@ var bodyCoordinates = document.querySelector('body').getBoundingClientRect();
   var filters = document.querySelector('.filters');
   var pictures = [];
   var filteredPictures = [];
-  var filter = document.querySelectorAll('.filters-item');
   var fragment = document.createDocumentFragment();
   var currentPage = 0;
   var PAGE_SIZE = 17;
@@ -71,10 +70,6 @@ var bodyCoordinates = document.querySelector('body').getBoundingClientRect();
       to = from + PAGE_SIZE_BIG;
       pagePictures = data.slice(from, to);
 
-      pagePictures.forEach(function(picture) {
-        addPicture(picture);
-      });
-
     } else {
 
       //определяем сколько будет отображаться изображений на странице
@@ -82,11 +77,9 @@ var bodyCoordinates = document.querySelector('body').getBoundingClientRect();
       to = from + PAGE_SIZE;
       pagePictures = data.slice(from, to);
 
-      pagePictures.forEach(function(picture) {
-        addPicture(picture);
-      });
-
     }
+
+    pagePictures.forEach(addPicture);
 
     // после обработки всех изображений, запихиваем их разом в контейнер
     container.appendChild(fragment);
@@ -98,7 +91,7 @@ var bodyCoordinates = document.querySelector('body').getBoundingClientRect();
     if (clickedElement.classList.contains('filters-item')) {
       setActiveFilter(clickedElement.getAttribute('for'));
     }
-  })
+  });
 
   // сортировка изображений в зависимости от активного фильтра
   function setActiveFilter(id) {
