@@ -93,12 +93,12 @@ var bodyCoordinates = document.querySelector('body').getBoundingClientRect();
   }
 
   //работа с фильтрами
-  for (var i = 0; i < filter.length; i++) {
-    filter[i].addEventListener('click', function(evt) {
-      var clickedElemId = evt.target.getAttribute('for');
-      setActiveFilter(clickedElemId);
-    });
-  }
+  filters.addEventListener('click', function(event) {
+    var clickedElement = event.target;
+    if (clickedElement.classList.contains('filters-item')) {
+      setActiveFilter(clickedElement.getAttribute('for'));
+    }
+  })
 
   // сортировка изображений в зависимости от активного фильтра
   function setActiveFilter(id) {
