@@ -1,9 +1,9 @@
 'use strict';
-var bodyCoordinates = document.querySelector('body').getBoundingClientRect();
+
 (function() {
 
+  var bodyCoordinates = document.querySelector('body').getBoundingClientRect();
   var container = document.querySelector('.pictures');
-  var template = document.querySelector('#picture-template');
   var filters = document.querySelector('.filters');
   var pictures = [];
   var filteredPictures = [];
@@ -79,7 +79,11 @@ var bodyCoordinates = document.querySelector('body').getBoundingClientRect();
 
     }
 
-    pagePictures.forEach(addPicture);
+    pagePictures.forEach(function(picture) {
+      var pictureElement = new Photo(picture);
+      pictureElement.render();
+      fragment.appendChild(pictureElement.element);
+    });
 
     // после обработки всех изображений, запихиваем их разом в контейнер
     container.appendChild(fragment);
@@ -109,41 +113,6 @@ var bodyCoordinates = document.querySelector('body').getBoundingClientRect();
     renderPictures(filteredPictures, 0, true);
   }
 
-
-  //функция работы с шаблоном и изобажением
-  function addPicture(picture) {
-    //шаблон
-    var element = template.content.children[0].cloneNode(true);
-    element.querySelector('.picture-likes').textContent = picture.likes;
-    element.querySelector('.picture-comments').textContent = picture.comments;
-    fragment.appendChild(element);
-
-    //изображения
-    var imgTag = element.querySelector('img');
-    var image = new Image(182, 182);
-    var imageLoadTimeout;
-
-    //загрузка изображения
-    image.addEventListener('load', function() {
-      clearTimeout(imageLoadTimeout);
-      element.replaceChild(image, imgTag);
-    });
-
-    // если произойдет ошибка загрузки изображения
-    image.addEventListener('error', function() {
-      element.classList.add('picture-load-failure');
-    });
-
-    image.src = picture.url;
-
-    //если сервер не овтечает
-    var IMAGE_TIMEOUT = 10000;
-    imageLoadTimeout = setTimeout(function() {
-      image.src = '';
-      element.classList.add('picture-load-failure');
-    }, IMAGE_TIMEOUT);
-
-  }
   //проверяем есть ли в обертке с изображениями какие-то блоки
   function showFilters() {
     if (container.children.length === 0) {
@@ -152,6 +121,5 @@ var bodyCoordinates = document.querySelector('body').getBoundingClientRect();
       filters.classList.remove('hidden');
     }
   }
-
 
 })();
