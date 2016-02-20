@@ -16,13 +16,13 @@
 
   Gallery.prototype.hide = function() {
     this.element.classList.add('invisible');
-    this._closeButton.removeEventListener('click', this._onCloseClick)
+    this._closeButton.removeEventListener('click', this._onCloseClick);
   };
 
   Gallery.prototype._onCloseClick = function() {
     this.hide();
 
-  }
+  };
 
   window.Gallery = Gallery;
 
