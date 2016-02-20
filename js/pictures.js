@@ -1,3 +1,5 @@
+/* global Photo, Gallery*/
+
 'use strict';
 
 (function() {
@@ -8,6 +10,7 @@
   var pictures = [];
   var filteredPictures = [];
   var fragment = document.createDocumentFragment();
+  var gallery = new Gallery();
   var currentPage = 0;
   var PAGE_SIZE = 17;
   var PAGE_SIZE_BIG = 26;
@@ -60,8 +63,16 @@
     var pagePictures; //вырезанный массив
 
     if (replace) {
+      //удаляем обработчики событий
+      var renderedElements = container.querySelectorAll('.picture');
+      Array.prototype.forEach.call(renderedElements, function(element) {
+        element.removeEventListener('click', _onClick);
+
+        container.removeChild(element);
+      });
+
       // обнуляем содержимое контейнера
-      container.innerHTML = '';
+      // container.innerHTML = '';
     }
     if (bodyCoordinates.width >= 1380) {
       // если большое  разрешение
@@ -83,10 +94,17 @@
       var pictureElement = new Photo(picture);
       pictureElement.render();
       fragment.appendChild(pictureElement.element);
+
+      pictureElement.element.addEventListener('click', _onClick);
     });
 
     // после обработки всех изображений, запихиваем их разом в контейнер
     container.appendChild(fragment);
+  }
+
+  function _onClick(event) {
+    event.preventDefault();
+    gallery.show();
   }
 
   //работа с фильтрами
@@ -110,7 +128,7 @@
         return b.comments - a.comments;
       });
     }
-    renderPictures(filteredPictures, 0, true);
+    renderPictures(filteredPictures, currentPage, true);
   }
 
   //проверяем есть ли в обертке с изображениями какие-то блоки

@@ -36,7 +36,7 @@
       image.src = '';
       this.element.classList.add('picture-load-failure');
     }.bind(this), IMAGE_TIMEOUT);
-  }
+  };
 
   window.Photo = Photo;
 })();
