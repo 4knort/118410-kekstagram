@@ -1,14 +1,14 @@
 'use strict';
 
 (function() {
-  function inherit = function(child, parent) {
+  function inherit(child, parent) {
 
-  function emptyCtor() {}
+    function EmptyCtor() {}
 
-  emptyCtor.prototype = parent.prototype;
+    EmptyCtor.prototype = parent.prototype;
 
-  child.prototype = new emptyCtor;
-}
+    child.prototype = new EmptyCtor();
+  }
 
   window.inherit = inherit;
 
