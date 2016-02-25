@@ -37,6 +37,8 @@
     }
   };
 
+  // inherit(Gallery, Photo);
+
   window.Gallery = Gallery;
 
 })();
