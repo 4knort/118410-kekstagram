@@ -43,7 +43,8 @@
 
   Photo.prototype.remove = function() {
     this.element.removeEventListener('click', this._onClick);
-  }
+  };
+
   Photo.prototype._onClick = function(evt) {
     evt.preventDefault();
     if (this.element.classList.contains('picture') &&
@@ -52,7 +53,7 @@
         this.onClick();
       }
     }
-  }
+  };
 
 
 

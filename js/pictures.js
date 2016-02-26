@@ -70,7 +70,7 @@
       while ((el = renderedElements.shift())) {
         container.removeChild(el.element);
         el.onClick = null;
-        el.remove;
+        el.remove();
       }
 
       // обнуляем содержимое контейнера
@@ -92,19 +92,19 @@
 
     }
 
-      renderedElements = renderedElements.concat(pagePictures.map(function(picture) {
-        var pictureElement = new Photo(picture);
-        pictureElement.render();
-        fragment.appendChild(pictureElement.element);
+    renderedElements = renderedElements.concat(pagePictures.map(function(picture) {
+      var pictureElement = new Photo(picture);
+      pictureElement.render();
+      fragment.appendChild(pictureElement.element);
 
-        pictureElement.onClick = function() {
-          gallery.data = pictureElement._picture;
-          gallery.getPictureNumber(picture.url);
-          gallery.render();
+      pictureElement.onClick = function() {
+        gallery.data = pictureElement._picture;
+        gallery.getPictureNumber(picture.url);
+        gallery.render();
 
-        };
-        return pictureElement;
-      }));
+      };
+      return pictureElement;
+    }));
 
     // после обработки всех изображений, запихиваем их разом в контейнер
     container.appendChild(fragment);
