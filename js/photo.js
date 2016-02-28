@@ -47,25 +47,16 @@
 
   Photo.prototype._onClick = function(evt) {
     evt.preventDefault();
-    if (this.element.classList.contains('picture') &&
-      !this.element.classList.contains('picture-load-failure')) {
+    var classList = this.element.classList;
+    if (classList.contains('picture') &&
+      !classList.contains('picture-load-failure')) {
       if (typeof this.onClick === 'function') {
         this.onClick();
       }
     }
   };
 
-
-
   Photo.prototype.onClick = null;
-
-  // Photo.prototype.setData = function(picture) {
-  //   this._picture = picture;
-  // };
-
-  // Photo.prototype.getData = function() {
-  //   return this._picture;
-  // };
 
   window.Photo = Photo;
 })();

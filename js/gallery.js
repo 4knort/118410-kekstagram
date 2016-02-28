@@ -46,7 +46,7 @@
 
   Gallery.prototype._onCloseClick = function() {
     this.hide();
-    this.removeEventListener('click', this._onPhotoClick);
+    this._image.removeEventListener('click', this._onPhotoClick);
   };
 
   Gallery.prototype._onPhotoClick = function() {
@@ -66,6 +66,8 @@
         this.currentPicture = i;
         return i;
       }
+
+      return -1;
     }
   };
 
