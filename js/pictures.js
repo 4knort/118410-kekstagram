@@ -4,18 +4,45 @@ define([
   'photo',
   'gallery'
 ], function(Photo, Gallery) {
-
+  /** @type {Element} */
   var bodyCoordinates = document.querySelector('body').getBoundingClientRect();
+
+  /** @type {Element} */
   var container = document.querySelector('.pictures');
+
+  /** @type {Element} */
   var filters = document.querySelector('.filters');
+
+  /** @type {Array} */
   var pictures = [];
+
+  /** @type {Array} */
   var filteredPictures = [];
+
+  /** @type {Array} */
   var renderedElements = [];
+
+  /** @type {Element} */
   var fragment = document.createDocumentFragment();
+
+  /** @type {Constructor} */
   var gallery = new Gallery();
+
+  /** @type {Number} */
   var currentPage = 0;
+
+  /**
+   * @const
+   * @type {Number}
+   */
   var PAGE_SIZE = 17;
+
+  /**
+   * @const
+   * @type {Number}
+   */
   var PAGE_SIZE_BIG = 26;
+
 
 
   getPictures();
@@ -46,6 +73,9 @@ define([
     xhr.send();
   }
 
+  /**
+   *@type {Number}
+   */
   var scrollTimeout;
 
   window.addEventListener('scroll', function() {
@@ -59,7 +89,12 @@ define([
     }, 100);
   });
 
-  //обрабатываем данные полученные из json
+  /**
+   обрабатываем данные полученные из json
+   *@param {Array}
+   *@param {Number}
+   *@param {boolean=}
+   */
   function renderPictures(data, pageNumber, replace) {
     var from; // с какого элемента режем массив
     var to; // до какого элемента режем массив
@@ -120,6 +155,10 @@ define([
   });
 
   // сортировка изображений в зависимости от активного фильтра
+
+  /**
+   *@param {String}
+   */
   function setActiveFilter(id) {
     filteredPictures = pictures.slice(0);
     currentPage = 0;

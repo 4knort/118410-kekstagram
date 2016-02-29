@@ -1,6 +1,10 @@
 'use strict';
 
 define(function() {
+  /**
+   * @oaran {Array}
+   * @return {Constructor}
+   */
   var Gallery = function(data) {
     this.data = data;
 

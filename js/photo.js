@@ -1,7 +1,10 @@
 'use strict';
 
 define(function() {
-
+  /**
+   * @param {Object}
+   * @return {Constructor}
+   */
   function Photo(picture) {
     this._picture = picture;
     this._onClick = this._onClick.bind(this);
@@ -9,14 +12,30 @@ define(function() {
 
   Photo.prototype.render = function() {
     //шаблон
+
+    /**
+     *@type {Element}
+     */
     var template = document.querySelector('#picture-template');
     this.element = template.content.children[0].cloneNode(true);
     this.element.querySelector('.picture-likes').textContent = this._picture.likes;
     this.element.querySelector('.picture-comments').textContent = this._picture.comments;
 
     //изображения
+
+    /**
+     *@type {Element}
+     */
     var imgTag = this.element.querySelector('img');
+
+    /**
+     *@type {Image}
+     */
     var image = new Image(182, 182);
+
+    /**
+     *@type {Number}
+     */
     var imageLoadTimeout;
 
     //загрузка изображения
@@ -32,6 +51,10 @@ define(function() {
     image.src = this._picture.url;
 
     //если сервер не овтечает
+
+    /**
+     *@type {Number}
+     */
     var IMAGE_TIMEOUT = 10000;
     imageLoadTimeout = setTimeout(function() {
       image.src = '';
