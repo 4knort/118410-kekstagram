@@ -4,6 +4,7 @@
 
   function Photo(picture) {
     this._picture = picture;
+    this._onClick = this._onClick.bind(this);
   }
 
   Photo.prototype.render = function() {
@@ -36,7 +37,26 @@
       image.src = '';
       this.element.classList.add('picture-load-failure');
     }.bind(this), IMAGE_TIMEOUT);
+
+    this.element.addEventListener('click', this._onClick);
   };
+
+  Photo.prototype.remove = function() {
+    this.element.removeEventListener('click', this._onClick);
+  };
+
+  Photo.prototype._onClick = function(evt) {
+    evt.preventDefault();
+    var classList = this.element.classList;
+    if (classList.contains('picture') &&
+      !classList.contains('picture-load-failure')) {
+      if (typeof this.onClick === 'function') {
+        this.onClick();
+      }
+    }
+  };
+
+  Photo.prototype.onClick = null;
 
   window.Photo = Photo;
 })();

@@ -9,6 +9,7 @@
   var filters = document.querySelector('.filters');
   var pictures = [];
   var filteredPictures = [];
+  var renderedElements = [];
   var fragment = document.createDocumentFragment();
   var gallery = new Gallery();
   var currentPage = 0;
@@ -29,6 +30,7 @@
       filteredPictures = JSON.parse(responseData);
       renderPictures(pictures, 0, true);
       showFilters();
+      gallery.setPictures(pictures);
     });
     xhr.addEventListener('readystatechange', function() {
       if (xhr.readyState === 3) {
@@ -64,12 +66,12 @@
 
     if (replace) {
       //удаляем обработчики событий
-      var renderedElements = container.querySelectorAll('.picture');
-      Array.prototype.forEach.call(renderedElements, function(element) {
-        element.removeEventListener('click', _onClick);
-
-        container.removeChild(element);
-      });
+      var el;
+      while ((el = renderedElements.shift())) {
+        container.removeChild(el.element);
+        el.onClick = null;
+        el.remove();
+      }
 
       // обнуляем содержимое контейнера
       // container.innerHTML = '';
@@ -90,21 +92,22 @@
 
     }
 
-    pagePictures.forEach(function(picture) {
+    renderedElements = renderedElements.concat(pagePictures.map(function(picture) {
       var pictureElement = new Photo(picture);
       pictureElement.render();
       fragment.appendChild(pictureElement.element);
 
-      pictureElement.element.addEventListener('click', _onClick);
-    });
+      pictureElement.onClick = function() {
+        gallery.data = pictureElement._picture;
+        gallery.getPictureNumber(picture.url);
+        gallery.render();
+
+      };
+      return pictureElement;
+    }));
 
     // после обработки всех изображений, запихиваем их разом в контейнер
     container.appendChild(fragment);
-  }
-
-  function _onClick(event) {
-    event.preventDefault();
-    gallery.show();
   }
 
   //работа с фильтрами
