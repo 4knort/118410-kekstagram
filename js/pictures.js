@@ -1,8 +1,9 @@
-/* global Photo, Gallery*/
-
 'use strict';
 
-(function() {
+define([
+  "photo",
+  "gallery"
+  ], function(Photo, Gallery) {
 
   var bodyCoordinates = document.querySelector('body').getBoundingClientRect();
   var container = document.querySelector('.pictures');
@@ -143,4 +144,4 @@
     }
   }
 
-})();
+});

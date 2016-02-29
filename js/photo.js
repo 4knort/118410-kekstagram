@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+define(function() {
 
   function Photo(picture) {
     this._picture = picture;
@@ -58,5 +58,5 @@
 
   Photo.prototype.onClick = null;
 
-  window.Photo = Photo;
-})();
+  return Photo;
+});

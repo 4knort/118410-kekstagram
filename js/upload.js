@@ -1,5 +1,3 @@
-/* global Resizer: true */
-
 /**
  * @fileoverview
  * @author Igor Alexeenko (o0)
@@ -7,7 +5,9 @@
 
 'use strict';
 
-(function() {
+define([
+  "resizer"
+  ], function(Resizer) {
   /** @enum {string} */
   var FileType = {
     'GIF': '',
@@ -347,7 +347,6 @@
   var radioActive;
 
 
-
   formFilter.onsubmit = function(event) {
     event.preventDefault();
 
@@ -362,7 +361,6 @@
     }
     document.cookie = 'filter=' + radioActive.id + ';expires=' + formattedDateToExpire;
 
-    // formFilter.submit();
   };
 
   var radioFilter = document.getElementById(docCookies.getItem('filter'));
@@ -375,6 +373,6 @@
   } else {
     filterImage.className = 'filter-image-preview ' + 'filter-sepia';
   }
-})();
+});
 
 

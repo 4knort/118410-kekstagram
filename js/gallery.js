@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+define(function() {
   var Gallery = function(data) {
     this.data = data;
 
@@ -71,7 +71,5 @@
     }
   };
 
-
-  window.Gallery = Gallery;
-
-})();
+  return Gallery;
+});
