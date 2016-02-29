@@ -1,9 +1,9 @@
 'use strict';
 
 define([
-  "photo",
-  "gallery"
-  ], function(Photo, Gallery) {
+  'photo',
+  'gallery'
+], function(Photo, Gallery) {
 
   var bodyCoordinates = document.querySelector('body').getBoundingClientRect();
   var container = document.querySelector('.pictures');

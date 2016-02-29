@@ -6,8 +6,8 @@
 'use strict';
 
 define([
-  "resizer"
-  ], function(Resizer) {
+  'resizer'
+], function(Resizer) {
   /** @enum {string} */
   var FileType = {
     'GIF': '',
