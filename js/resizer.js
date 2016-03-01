@@ -333,4 +333,4 @@ define(function() {
   };
 
   return Resizer;
-})();
+});
