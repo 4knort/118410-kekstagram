@@ -364,7 +364,9 @@ define([
   };
 
   var radioFilter = document.getElementById(docCookies.getItem('filter'));
-  radioFilter.checked = true;
+  if (radioFilter === 'object') {
+    radioFilter.checked = true;
+  }
 
   if (document.getElementById('upload-filter-none').checked === true) {
     filterImage.className = 'filter-image-preview ' + 'filter-none';
