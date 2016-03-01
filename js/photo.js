@@ -11,9 +11,10 @@ define(function() {
   }
 
   Photo.prototype.render = function() {
-    //шаблон
+
 
     /**
+     шаблон
      *@type {Element}
      */
     var template = document.querySelector('#picture-template');
@@ -21,9 +22,10 @@ define(function() {
     this.element.querySelector('.picture-likes').textContent = this._picture.likes;
     this.element.querySelector('.picture-comments').textContent = this._picture.comments;
 
-    //изображения
+
 
     /**
+     изображения
      *@type {Element}
      */
     var imgTag = this.element.querySelector('img');
@@ -53,7 +55,8 @@ define(function() {
     //если сервер не овтечает
 
     /**
-     *@type {Number}
+     * @const
+     * @type {Number}
      */
     var IMAGE_TIMEOUT = 10000;
     imageLoadTimeout = setTimeout(function() {
