@@ -193,10 +193,4 @@ define([
     }
   }
 
-  /**
-   *@param {String}
-   */
-  function getActiveFilter(activeFilter) {
-
-  }
 });
