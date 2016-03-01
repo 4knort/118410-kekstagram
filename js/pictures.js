@@ -37,6 +37,7 @@ define([
    */
   var PAGE_SIZE = 17;
 
+  var activeFilter = localStorage.getItem('activeFilter') || 'filter-popular';
   /**
    * @const
    * @type {Number}
@@ -56,7 +57,7 @@ define([
       var responseData = evt.target.response;
       pictures = JSON.parse(responseData);
       filteredPictures = JSON.parse(responseData);
-      renderPictures(pictures, 0, true);
+      setActiveFilter(activeFilter);
       showFilters();
       gallery.setPictures(pictures);
     });
@@ -162,6 +163,8 @@ define([
   function setActiveFilter(id) {
     filteredPictures = pictures.slice(0);
     currentPage = 0;
+    var filtersRadio = document.querySelectorAll('.filters-radio');
+
     if (id === 'filter-new') {
       filteredPictures = filteredPictures.sort(function(a, b) {
         return new Date(b.date) - new Date(a.date);
@@ -171,7 +174,14 @@ define([
         return b.comments - a.comments;
       });
     }
+    for (var i = 0; i < filtersRadio.length; i++) {
+      if (filtersRadio[i].id === id) {
+        filtersRadio[i].checked = true;
+      }
+    }
     renderPictures(filteredPictures, currentPage, true);
+    activeFilter = id;
+    localStorage.setItem('activeFilter', id);
   }
 
   //проверяем есть ли в обертке с изображениями какие-то блоки
@@ -183,4 +193,10 @@ define([
     }
   }
 
+  /**
+   *@param {String}
+   */
+  function getActiveFilter(activeFilter) {
+
+  }
 });
