@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+define(function() {
   function inherit(child, parent) {
 
     function EmptyCtor() {}
@@ -10,6 +10,6 @@
     child.prototype = new EmptyCtor();
   }
 
-  window.inherit = inherit;
+  return inherit;
 
-})();
+});

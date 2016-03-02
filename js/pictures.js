@@ -1,20 +1,49 @@
-/* global Photo, Gallery*/
-
 'use strict';
 
-(function() {
-
+define([
+  'photo',
+  'gallery'
+], function(Photo, Gallery) {
+  /** @type {Element} */
   var bodyCoordinates = document.querySelector('body').getBoundingClientRect();
+
+  /** @type {Element} */
   var container = document.querySelector('.pictures');
+
+  /** @type {Element} */
   var filters = document.querySelector('.filters');
+
+  /** @type {Array} */
   var pictures = [];
+
+  /** @type {Array} */
   var filteredPictures = [];
+
+  /** @type {Array} */
   var renderedElements = [];
+
+  /** @type {Element} */
   var fragment = document.createDocumentFragment();
+
+  /** @type {Constructor} */
   var gallery = new Gallery();
+
+  /** @type {Number} */
   var currentPage = 0;
+
+  /**
+   * @const
+   * @type {Number}
+   */
   var PAGE_SIZE = 17;
+
+  var activeFilter = localStorage.getItem('activeFilter') || 'filter-popular';
+  /**
+   * @const
+   * @type {Number}
+   */
   var PAGE_SIZE_BIG = 26;
+
 
 
   getPictures();
@@ -28,7 +57,7 @@
       var responseData = evt.target.response;
       pictures = JSON.parse(responseData);
       filteredPictures = JSON.parse(responseData);
-      renderPictures(pictures, 0, true);
+      setActiveFilter(activeFilter);
       showFilters();
       gallery.setPictures(pictures);
     });
@@ -45,6 +74,9 @@
     xhr.send();
   }
 
+  /**
+   *@type {Number}
+   */
   var scrollTimeout;
 
   window.addEventListener('scroll', function() {
@@ -58,7 +90,12 @@
     }, 100);
   });
 
-  //обрабатываем данные полученные из json
+  /**
+   обрабатываем данные полученные из json
+   *@param {Array}
+   *@param {Number}
+   *@param {boolean=}
+   */
   function renderPictures(data, pageNumber, replace) {
     var from; // с какого элемента режем массив
     var to; // до какого элемента режем массив
@@ -100,8 +137,7 @@
       pictureElement.onClick = function() {
         gallery.data = pictureElement._picture;
         gallery.getPictureNumber(picture.url);
-        gallery.render();
-
+        location.hash = '#photo' + '/' + picture.url;
       };
       return pictureElement;
     }));
@@ -119,9 +155,15 @@
   });
 
   // сортировка изображений в зависимости от активного фильтра
+
+  /**
+   *@param {String}
+   */
   function setActiveFilter(id) {
     filteredPictures = pictures.slice(0);
     currentPage = 0;
+    var filtersRadio = document.querySelectorAll('.filters-radio');
+
     if (id === 'filter-new') {
       filteredPictures = filteredPictures.sort(function(a, b) {
         return new Date(b.date) - new Date(a.date);
@@ -131,7 +173,14 @@
         return b.comments - a.comments;
       });
     }
+    for (var i = 0; i < filtersRadio.length; i++) {
+      if (filtersRadio[i].id === id) {
+        filtersRadio[i].checked = true;
+      }
+    }
     renderPictures(filteredPictures, currentPage, true);
+    activeFilter = id;
+    localStorage.setItem('activeFilter', id);
   }
 
   //проверяем есть ли в обертке с изображениями какие-то блоки
@@ -143,4 +192,5 @@
     }
   }
 
-})();
+  window.addEventListener('hashchange', gallery.checkHash);
+});
