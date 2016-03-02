@@ -15,25 +15,41 @@ define(function() {
     this._likes = this.element.querySelector('.likes-count');
     this._onCloseClick = this._onCloseClick.bind(this);
     this._onPhotoClick = this._onPhotoClick.bind(this);
+    this.checkHash = this.checkHash.bind(this);
     this._onDocumentKeyDown = this._onDocumentKeyDown.bind(this);
     this.currentPicture = 0;
-  };
-
-  Gallery.prototype.render = function() {
-    this.show();
-    this.setCurrentPicture(this.currentPicture);
-    this._image.addEventListener('click', this._onPhotoClick);
   };
 
   Gallery.prototype.setPictures = function(pictures) {
     this.pictures = pictures;
   };
 
+
   Gallery.prototype.setCurrentPicture = function(i) {
-    this._image.src = this.pictures[i].url;
-    this._likes.textContent = this.pictures[i].likes;
-    this._comments.textContent = this.pictures[i].comments;
+    var picture;
+    if (typeof i === 'number') {
+      picture = this.pictures[i];
+    } else if (typeof i === 'string') {
+      picture = this.pictures[this.getPictureNumber(i)];
+    }
+    this._image.src = picture.url;
+    this._likes.textContent = picture.likes;
+    this._comments.textContent = picture.comments;
+    location.hash = 'photo/' + this.pictures[this.currentPicture].url;
   };
+
+
+
+  Gallery.prototype.checkHash = function() {
+    var regExp = location.hash.match(/#photo\/(\S+)/);
+    if (regExp) {
+      this.setCurrentPicture(regExp[1]);
+      this.show();
+      this._image.addEventListener('click', this._onPhotoClick);
+    } else {
+      this.hide();
+    }
+  }
 
   Gallery.prototype.show = function() {
     this.element.classList.remove('invisible');
@@ -49,8 +65,8 @@ define(function() {
   };
 
   Gallery.prototype._onCloseClick = function() {
-    this.hide();
     this._image.removeEventListener('click', this._onPhotoClick);
+    location.hash = '';
   };
 
   Gallery.prototype._onPhotoClick = function() {
@@ -59,8 +75,8 @@ define(function() {
 
   Gallery.prototype._onDocumentKeyDown = function() {
     if (event.keyCode === 27) {
-      this.element.classList.add('invisible');
       this.removeEventListener('click', this._onPhotoClick);
+      location.hash = '';
     }
   };
 
@@ -71,7 +87,6 @@ define(function() {
         return i;
       }
 
-      return -1;
     }
   };
 

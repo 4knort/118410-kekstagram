@@ -137,8 +137,7 @@ define([
       pictureElement.onClick = function() {
         gallery.data = pictureElement._picture;
         gallery.getPictureNumber(picture.url);
-        gallery.render();
-
+        location.hash = '#photo' + '/' + picture.url;
       };
       return pictureElement;
     }));
@@ -193,4 +192,5 @@ define([
     }
   }
 
+  window.addEventListener('hashchange', gallery.checkHash);
 });
