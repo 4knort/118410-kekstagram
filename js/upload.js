@@ -1,5 +1,3 @@
-/* global Resizer: true */
-
 /**
  * @fileoverview
  * @author Igor Alexeenko (o0)
@@ -7,7 +5,9 @@
 
 'use strict';
 
-(function() {
+define([
+  'resizer'
+], function(Resizer) {
   /** @enum {string} */
   var FileType = {
     'GIF': '',
@@ -305,22 +305,22 @@
   }
 
   // создаем событие onchange на поле ширины
-  resizeX.onchange = function() {
+  resizeX.addEventListener('change', function() {
     resizeWidth(resizeX.value, resizeSide.value);
     valid();
-  };
+  });
 
   // создаем событие onchange на поле высоты
-  resizeY.onchange = function() {
-    resizeHeight(resizeSide.value, resizeSide.value);
+  resizeY.addEventListener('change', function() {
+    resizeHeight(resizeY.value, resizeSide.value);
     valid();
-  };
+  });
 
   // проверяем поле 'сторона' на валидность
-  resizeSide.onchange = function() {
+  resizeSide.addEventListener('change', function() {
     resizingSide(resizeX.value, resizeY.value);
     valid();
-  };
+  });
 
   // отключение кнопки сабмит(проверка на валидность форм)
   function valid() {
@@ -347,8 +347,7 @@
   var radioActive;
 
 
-
-  formFilter.onsubmit = function(event) {
+  formFilter.addEventListener('submit', function() {
     event.preventDefault();
 
     var myBirth = new Date('2015-08-19').valueOf();
@@ -362,11 +361,12 @@
     }
     document.cookie = 'filter=' + radioActive.id + ';expires=' + formattedDateToExpire;
 
-    // formFilter.submit();
-  };
+  });
 
   var radioFilter = document.getElementById(docCookies.getItem('filter'));
-  radioFilter.checked = true;
+  if (radioFilter === 'object') {
+    radioFilter.checked = true;
+  }
 
   if (document.getElementById('upload-filter-none').checked === true) {
     filterImage.className = 'filter-image-preview ' + 'filter-none';
@@ -375,6 +375,22 @@
   } else {
     filterImage.className = 'filter-image-preview ' + 'filter-sepia';
   }
-})();
+
+  function onInput() {
+    currentResizer.setConstraint(parseInt(resizeX.value, 10),
+                                 parseInt(resizeY.value, 10),
+                                 parseInt(resizeSide.value, 10));
+  }
+
+  resizeX.addEventListener('input', onInput);
+  resizeY.addEventListener('input', onInput);
+  resizeSide.addEventListener('input', onInput);
+
+  window.addEventListener('resizerchange', function() {
+    resizeX.value = parseInt(currentResizer.getConstraint().x, 10);
+    resizeY.value = parseInt(currentResizer.getConstraint().y, 10);
+    resizeSide.value = parseInt(currentResizer.getConstraint().side, 10);
+  });
+});
 
 
