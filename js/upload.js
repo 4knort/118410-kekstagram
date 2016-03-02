@@ -376,7 +376,7 @@ define([
     filterImage.className = 'filter-image-preview ' + 'filter-sepia';
   }
 
-    function onInput() {
+  function onInput() {
     currentResizer.setConstraint(parseInt(resizeX.value, 10),
                                  parseInt(resizeY.value, 10),
                                  parseInt(resizeSide.value, 10));

@@ -49,7 +49,7 @@ define(function() {
     } else {
       this.hide();
     }
-  }
+  };
 
   Gallery.prototype.show = function() {
     this.element.classList.remove('invisible');
