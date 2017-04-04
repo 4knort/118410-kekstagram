@@ -1,5 +1,5 @@
 This project is a part of [HTML Academy](https://htmlacademy.ru) JS basic course.
-We developed an photo service like instagram.
+We developed a photo service like instagram.
 
 Files I've been working with:
 
