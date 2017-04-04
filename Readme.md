@@ -1,4 +1,4 @@
-This project is a part of htmlacademy.ru JS basic course.
+This project is a part of [HTML Academy](https://htmlacademy.ru) JS basic course.
 We developed an photo service like instagram.
 
 Files I've been working with:
